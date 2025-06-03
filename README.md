@@ -37,3 +37,40 @@
 
 - [Jakarta EE 8 Starter Boilerplate](https://github.com/hantsy/jakartaee8-starter-boilerplate)
 - [Starter for Jakarta EE](https://start.jakarta.ee/)
+
+## Base de datos de ejemplos
+
+- [Página principal Sakila](https://dev.mysql.com/doc/sakila/en/)
+- [Diagrama de la BD Sakila](http://trifulcas.com/wp-content/uploads/2018/03/sakila-er.png)
+
+## Paquetes Java
+
+- <https://downloads.mysql.com/archives/get/p/3/file/mysql-connector-java-5.1.49.zip>
+
+## Contenedores
+
+### Agentes de Mensajería
+
+#### Apache ActiveMQ o Artemis (JMS)
+
+    docker run -d --name activemq -p 1883:1883 -p 5672:5672 -p 8161:8161 -p 61613:61613 -p 61614:61614 -p 61616:61616 jamarton/activemq
+
+    docker run -d --name artemis -p 1883:1883 -p 5445:5445 -p 5672:5672 -p 8161:8161 -p 9404:9404 -p 61613:61613 -p 61616:61616 jamarton/artemis
+
+### Bases de datos
+
+#### MySQL
+
+    docker run -d --name mysql-sakila -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 jamarton/mysql-sakila
+
+#### MongoDB
+
+    docker run -d --name mongodb -p 27017:27017 -v .:/externo jamarton/mongodb-contactos
+
+#### Redis
+
+    docker run -d --name redis -p 6379:6379 -p 6380:8001 -v .:/data redis/redis-stack:latest
+
+### Comandos
+
+    docker run --rm -it --name maven -v %cd%:/local -v maven-repository:/root/.m2 maven:3.8.6-eclipse-temurin-8 sh
