@@ -1,0 +1,9 @@
+# Algunos archivos aparentan ser textuales, 
+# pero a efectos prácticos merece más la pena tratarlos como binarios
+*.pdf binary
+# Tratamiento del fin de linea
+* text=auto
+*.txt text eol=crlf
+*.sh text eol=lf
+.bashrc text eol=lf
+*.png -text
