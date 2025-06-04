@@ -1,3 +1,5 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -14,7 +16,7 @@
 	</ul>
 	<footer>
 	<hr>
-		<div>&copy; <%= (new Date()).toLocaleString() %></div>
+		<div>&copy; <%= GregorianCalendar.getInstance().get(Calendar.YEAR) %></div>
 	</footer>
 </body>
 </html>
