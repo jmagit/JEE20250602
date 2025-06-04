@@ -28,7 +28,7 @@ public class Saluda extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/xml");
+		response.setContentType("text/html");
 		response.setStatus(202, getServletInfo());
 		PrintWriter out = response.getWriter();
 		out.println("<!DOCTYPE html><html>");
