@@ -29,12 +29,11 @@ public class Saluda extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
-		response.setStatus(202, getServletInfo());
 		PrintWriter out = response.getWriter();
 		out.println("<!DOCTYPE html><html>");
 		out.println("<head><title>Curso</title></head>");
 		out.println("<body>");
-		out.println("<h1>Hola mundo</h1>");
+		out.println("<h1>" + request.getAttribute("saludoMsg") + ", mundo</h1>");
 		out.println("<div>" + request.getMethod() +"</div>");
 		out.println("</body></html>");
 	}
