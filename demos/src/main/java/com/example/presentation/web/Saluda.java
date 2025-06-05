@@ -1,4 +1,4 @@
-package com.examples.presentation.web;
+package com.example.presentation.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;

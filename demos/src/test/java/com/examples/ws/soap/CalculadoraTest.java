@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import com.examples.presentation.services.soap.Calculadora;
+import com.example.presentation.services.soap.Calculadora;
 
 @DisplayName("Pruebas de la clase Calculadora")
 class CalculadoraTest {
