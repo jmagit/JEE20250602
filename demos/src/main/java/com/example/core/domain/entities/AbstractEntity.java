@@ -1,4 +1,4 @@
-package com.examples.core.domain.entities;
+package com.example.core.domain.entities;
 
 import java.util.HashMap;
 import java.util.Map;

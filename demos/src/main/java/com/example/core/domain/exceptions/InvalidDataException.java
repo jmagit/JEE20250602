@@ -1,4 +1,4 @@
-package com.examples.core.domain.exceptions;
+package com.example.core.domain.exceptions;
 
 import java.util.Map;
 

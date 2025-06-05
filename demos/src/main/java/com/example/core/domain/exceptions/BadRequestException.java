@@ -1,4 +1,4 @@
-package com.examples.core.domain.exceptions;
+package com.example.core.domain.exceptions;
 
 public class BadRequestException extends Exception {
 	private static final long serialVersionUID = 1L;

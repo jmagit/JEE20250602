@@ -1,4 +1,4 @@
-package com.examples.presentation.services.soap;
+package com.example.presentation.services.soap;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
