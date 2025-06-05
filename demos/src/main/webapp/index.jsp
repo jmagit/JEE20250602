@@ -12,6 +12,7 @@
 	<h1>Hola, mundo</h1>
 	<ul>
 		<li><a href="./saluda">Saluda</a></li>
+		<li><a href="./actores">Actores</a></li>
 	</ul>
 	<footer>
 	<hr>
