@@ -19,6 +19,10 @@
   - Alternativas a Docker Desktop
     - [Podman](https://podman.io/docs/installation)
     - [Rancher Desktop](https://rancherdesktop.io/)
+- Clientes de bases de datos (opcionales)
+  - [HeidiSQL](https://www.heidisql.com/download.php)
+  - [DBeaver Community](https://dbeaver.io/download/)
+  - [MongoDB Compass](https://www.mongodb.com/try/download/compass)
 
 ## Servidores de aplicaciones
 
@@ -46,6 +50,7 @@
 ## Paquetes Java
 
 - <https://downloads.mysql.com/archives/get/p/3/file/mysql-connector-java-5.1.49.zip>
+- <https://sourceforge.net/projects/hibernate/files/hibernate-orm/5.6.5.Final/hibernate-release-5.6.5.Final.zip/download>
 
 ## Contenedores
 
