@@ -1,0 +1,17 @@
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\App.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\contracts\distributed\services\ConverterBeanLocal.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\contracts\distributed\services\ConverterBeanRemote.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\contracts\distributed\services\CounterBean.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\contracts\distributed\services\LikesBeanRemote.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\Calculadora.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\CalculadoraService.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\Divide.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\DivideResponse.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\Multiplica.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\MultiplicaResponse.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\ObjectFactory.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\package-info.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\Resta.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\RestaResponse.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\Suma.java
+C:\Archivos\cursos\jee\tutorial-examples\client.console\src\main\java\com\example\soap\client\SumaResponse.java

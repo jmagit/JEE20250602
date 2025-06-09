@@ -1,0 +1,9 @@
+package com.example.core.contracts.domain.repositories;
+
+import java.util.List;
+
+public interface RepositoryWithProjections {
+	<T> List<T> findAllBy(Class<T> tipo);
+//	<T> Iterable<T> findAllBy(Sort orden, Class<T> tipo);
+//	<T> Page<T> findAllBy(Pageable page, Class<T> tipo);
+}
