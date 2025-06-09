@@ -17,17 +17,17 @@ public class ServiceImpl implements Servicio {
 	@Inject @Version String ver;
 	
 	public ServiceImpl() {
-		if(ver == null)
-			logger.severe("Sin version");
+//		if(ver == null)
+//			logger.severe("Sin version");
 	}
 	
 	@PostConstruct
 	private void init() {
-			logger.severe("Version: " + ver);
+//			logger.severe("Version: " + ver);
 	}
 	@PreDestroy
 	private void end() {
-		logger.severe("Destruyo");
+//		logger.severe("Destruyo");
 	}
 
 	@Override

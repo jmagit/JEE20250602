@@ -7,10 +7,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Alternative;
 
 @Target(TYPE)
 @Retention(RUNTIME)
 @RequestScoped
+@Alternative
 public @interface Repository {
 
 }

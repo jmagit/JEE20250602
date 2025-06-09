@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.Priority;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Default;
-import javax.enterprise.inject.Model;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import com.example.contracts.domain.repositories.ActoresRepository;
 import com.example.core.annotation.Repository;
@@ -18,8 +18,10 @@ import com.example.core.contracts.domain.repositories.PageModel;
 import com.example.core.domain.exceptions.NotFoundException;
 import com.example.domain.entities.Actor;
 
-@Repository
 @Stateless
+@Repository
+@Priority(1)
+@Alternative
 public class ActoresRepositoryJPAImpl implements ActoresRepository {
 	@PersistenceContext
 	EntityManager em;
