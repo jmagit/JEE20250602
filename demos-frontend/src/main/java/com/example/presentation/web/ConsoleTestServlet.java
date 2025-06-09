@@ -20,7 +20,10 @@ import javax.sql.DataSource;
 
 import com.example.contracts.distributed.services.ConverterBeanLocal;
 import com.example.contracts.distributed.services.LikesBeanLocal;
+import com.example.contracts.distributed.services.SaludoBeanLocal;
+import com.example.contracts.distributed.services.SaludoBeanRemote;
 import com.example.presentation.services.enterprise.CounterBean;
+import com.example.presentation.services.enterprise.SaludoBean;
 import com.example.presentation.web.ioc.Real;
 import com.example.presentation.web.ioc.Servicio;
 
@@ -35,8 +38,8 @@ public class ConsoleTestServlet extends HttpServlet {
 
 //		cabeceras(request, response, out);
 //		inyecciones(request, response, out);
-		conexion(request, response, out);
-//		ejb(request, response, out);
+//		conexion(request, response, out);
+		ejb(request, response, out);
 
 		request.getRequestDispatcher("/WEB-INF/parts/footer.jsp").include(request, response);
 	}
@@ -99,50 +102,66 @@ public class ConsoleTestServlet extends HttpServlet {
 	@EJB
 	private CounterBean counter;
 
+//	@EJB
+//	SaludoBeanLocal saludos;
+//	@EJB
+//	SaludoBeanRemote saludos;
+	@EJB
+	SaludoBean saludos;
+	
 	private void ejb(HttpServletRequest request, HttpServletResponse response, PrintWriter out) {
 		out.println("<h2>EJB</h2>");
 		out.println("<ul>");
-		out.println("<li>Converter (stateless): " + converter.dollarToYen(BigDecimal.TEN) + " - "
-				+ converter.dollarToYenLocal(BigDecimal.TEN) + "</li>");
-		if (like == null) {
-			out.println("<li>No Such EJB</li>");
-		} else
-			try {
-				int actual = like.getHits();
-				out.println("<li>Like (stateful): You has send " + actual + " like(s).[" + request.getSession().getId()
-						+ "]</li>");
-				if (actual > 10) {
-					out.println("<li>Like remove</li>");
-					like.remove();
-				}
-			} catch (Exception e) {
-				out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
-			}
-		if (likePropio == null) {
-			out.println("<li>No Such EJB</li>");
-		} else
-			try {
-				int actual = likePropio.getHits();
-				out.println("<li>Like (stateful): You has send " + actual + " like(s).[" + request.getSession().getId()
-						+ "]</li>");
-				if (actual > 10) {
-					out.println("<li>Like remove</li>");
-					likePropio.remove();
-				}
-			} catch (Exception e) {
-				out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
-			}
 		try {
-			int actual = counter.getHits();
-			out.println("<li>Counter (singleton): This page has been accessed " + actual + " time(s).</li>");
-			if (actual > 2) {
-				out.println("<li>Counter remove</li>");
-				counter.remove();
-			}
+			out.println("<li>EJB Saludos</li>");
+			out.println("<li>" + saludos.getSaludo() + "</li>");
+			out.println("<li>" + saludos.getSaludoInformal() + "</li>");
+			out.println("<li>" + saludos.getSaludoFormal() + "</li>");
 		} catch (Exception e) {
 			out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
 		}
-		out.println("<li><a href='" + request.getRequestURI() + "'>Abrir el enlace en una ventana de incognito</a></li>");
+		
+//		out.println("<li>Converter (stateless): " + converter.dollarToYen(BigDecimal.TEN) + " - "
+//				+ converter.dollarToYenLocal(BigDecimal.TEN) + "</li>");
+//		if (like == null) {
+//			out.println("<li>No Such EJB</li>");
+//		} else
+//			try {
+//				int actual = like.getHits();
+//				out.println("<li>Like (stateful): You has send " + actual + " like(s).[" + request.getSession().getId()
+//						+ "]</li>");
+//				if (actual > 10) {
+//					out.println("<li>Like remove</li>");
+//					like.remove();
+//				}
+//			} catch (Exception e) {
+//				out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
+//			}
+//		if (likePropio == null) {
+//			out.println("<li>No Such EJB</li>");
+//		} else
+//			try {
+//				int actual = likePropio.getHits();
+//				out.println("<li>Like (stateful): You has send " + actual + " like(s).[" + request.getSession().getId()
+//						+ "]</li>");
+//				if (actual > 10) {
+//					out.println("<li>Like remove</li>");
+//					likePropio.remove();
+//				}
+//			} catch (Exception e) {
+//				out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
+//			}
+//		try {
+//			int actual = counter.getHits();
+//			out.println("<li>Counter (singleton): This page has been accessed " + actual + " time(s).</li>");
+//			if (actual > 2) {
+//				out.println("<li>Counter remove</li>");
+//				counter.remove();
+//			}
+//		} catch (Exception e) {
+//			out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
+//		}
+//		out.println("<li><a href='" + request.getRequestURI() + "'>Abrir el enlace en una ventana de incognito</a></li>");
 		out.println("</ul>");
 	}
 
