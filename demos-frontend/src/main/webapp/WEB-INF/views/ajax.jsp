@@ -1,15 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<%@include file="../fragmentos/encabezados.jsp"%>
-<title>Ejemplos del curso</title>
-</head>
-<body>
-	<%@include file="../fragmentos/menu.jsp"%>
-	<main class="container-fluid">
+<%@include file="../parts/header.jsp" %>
 		<h1>AJAX</h1>
 		<img id="ajaxWait" alt="Cargando ..." src="/images/loading.gif" style="display: none" >
 		<div id="tabla"></div>
@@ -42,7 +34,7 @@
 		</form>
 		
 	</main>
-	<%@include file="../fragmentos/scripting.jsp"%>
+<%@ include file="../parts/footerScripts.jsp" %>
 	<script type="text/javascript">
 	function pide(pagina) {
 		 document.querySelector('#ajaxWait').style = "display: block";
@@ -99,5 +91,4 @@
 		});
 	
 	</script>
-</body>
-</html>
+<%@ include file="../parts/footerEnd.jsp" %>

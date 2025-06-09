@@ -46,7 +46,7 @@
 				if(value == '' ) {
 					msg = 'Es obligatorio';
 				} else if(isNaN(parseInt(value))) {
-					msg = 'Debe ser nï¿½merico';
+					msg = 'Debe ser númerico';
 				}
 				ponError(form[cmp].name, msg);
 				if(msg !== '') valid = false;
