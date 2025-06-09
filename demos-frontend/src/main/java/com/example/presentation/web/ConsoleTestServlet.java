@@ -21,6 +21,8 @@ import javax.sql.DataSource;
 import com.example.contracts.distributed.services.ConverterBeanLocal;
 import com.example.contracts.distributed.services.LikesBeanLocal;
 import com.example.presentation.services.enterprise.CounterBean;
+import com.example.presentation.web.ioc.Real;
+import com.example.presentation.web.ioc.Servicio;
 
 @WebServlet("/pruebas")
 public class ConsoleTestServlet extends HttpServlet {
@@ -31,13 +33,32 @@ public class ConsoleTestServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		request.getRequestDispatcher("/WEB-INF/parts/header.jsp").include(request, response);
 
-		cabeceras(request, response, out);
+//		cabeceras(request, response, out);
+		inyecciones(request, response, out);
 //		conexion(request, response, out);
 //		ejb(request, response, out);
 
 		request.getRequestDispatcher("/WEB-INF/parts/footer.jsp").include(request, response);
 	}
 
+//	@Inject
+//	public ConsoleTestServlet(Servicio srv) {
+//		this.srv = srv;
+//	}
+//	public ConsoleTestServlet() {
+//		this.srv.getNombre();
+//	}
+	
+	@Inject @Real
+	private Servicio srv;
+	
+	private void inyecciones(HttpServletRequest request, HttpServletResponse response, PrintWriter out) {
+		try {
+			out.println("<h2>" + srv.getNombre() + "</h2>");
+		} catch (Exception e) {
+			out.println("<h2>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</h2>");
+		}
+	}
 	private void cabeceras(HttpServletRequest request, HttpServletResponse response, PrintWriter out) {
 		out.println("<h2>cabeceras</h2>");
 		out.println("<ul>");
