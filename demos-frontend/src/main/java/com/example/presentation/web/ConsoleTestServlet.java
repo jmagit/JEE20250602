@@ -34,8 +34,8 @@ public class ConsoleTestServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/parts/header.jsp").include(request, response);
 
 //		cabeceras(request, response, out);
-		inyecciones(request, response, out);
-//		conexion(request, response, out);
+//		inyecciones(request, response, out);
+		conexion(request, response, out);
 //		ejb(request, response, out);
 
 		request.getRequestDispatcher("/WEB-INF/parts/footer.jsp").include(request, response);
