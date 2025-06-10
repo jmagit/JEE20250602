@@ -44,14 +44,6 @@ public class ConsoleTestServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/parts/footer.jsp").include(request, response);
 	}
 
-//	@Inject
-//	public ConsoleTestServlet(Servicio srv) {
-//		this.srv = srv;
-//	}
-//	public ConsoleTestServlet() {
-//		this.srv.getNombre();
-//	}
-	
 	@Inject @Real
 	private Servicio srv;
 	
@@ -102,12 +94,12 @@ public class ConsoleTestServlet extends HttpServlet {
 	@EJB
 	private CounterBean counter;
 
-//	@EJB
-//	SaludoBeanLocal saludos;
+	@EJB
+	SaludoBeanLocal saludos;
 //	@EJB
 //	SaludoBeanRemote saludos;
-	@EJB
-	SaludoBean saludos;
+//	@EJB
+//	SaludoBean saludos;
 	
 	private void ejb(HttpServletRequest request, HttpServletResponse response, PrintWriter out) {
 		out.println("<h2>EJB</h2>");
@@ -115,8 +107,8 @@ public class ConsoleTestServlet extends HttpServlet {
 		try {
 			out.println("<li>EJB Saludos</li>");
 			out.println("<li>" + saludos.getSaludo() + "</li>");
-			out.println("<li>" + saludos.getSaludoInformal() + "</li>");
-			out.println("<li>" + saludos.getSaludoFormal() + "</li>");
+//			out.println("<li>" + saludos.getSaludoInformal() + "</li>");
+//			out.println("<li>" + saludos.getSaludoFormal() + "</li>");
 		} catch (Exception e) {
 			out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
 		}

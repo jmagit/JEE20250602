@@ -1,8 +1,8 @@
 package com.example.core.contracts.domain.repositories;
 
 public class Page {
-	int number;
-	int size;
+	private int number;
+	private int size;
 	
 	private Page(int number, int size) {
 		super();

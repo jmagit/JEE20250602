@@ -35,7 +35,7 @@
 	        <a class="nav-link" href="${pageContext.request.contextPath}/ciudades">Ciudades</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="${pageContext.request.contextPath}/ajax">Ajax</a>
+	        <a class="nav-link" href="${pageContext.request.contextPath}/ajax.jsp">Ajax</a>
 	      </li>
 	      <li class="nav-item">
 	        <a class="nav-link" href="${pageContext.request.contextPath}/tutoriales/timer">Schedule</a>

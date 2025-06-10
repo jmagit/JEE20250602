@@ -19,6 +19,8 @@ public interface Repository<E, K> {
 
 	void deleteById(K id) throws NotFoundException;
 	
+	long count();
+	
 	default boolean existsById(K id) {
 		return findById(id).isPresent();
 	}

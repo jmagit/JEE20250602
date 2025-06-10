@@ -52,7 +52,7 @@ public class ActoresResource {
 		if(page < 0)
 			return Response.ok(srv.getAll().stream().map(item -> ActorEdit.from(item)).collect(Collectors.toList())).build();
 		PageModel<Actor> result = srv.getAll(Page.of(page, size));
-		return Response.ok(new PageModel<ActorEdit>(result.getNumber(), result.getSize(), 
+		return Response.ok(new PageModel<ActorEdit>(result.getNumber(), result.getSize(), result.getTotalElements(),
 				result.getContent().stream().map(item -> ActorEdit.from(item)).collect(Collectors.toList()))).build();
 	}
 	@GET

@@ -16,11 +16,16 @@ public class PageModel<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlAttribute(required=true) 
-	int number;
+	private int number;
     @XmlAttribute(required=true) 
-	int size;
+    private int size;
     @XmlElement(required=true) 
-	List<T> content;
+    private long totalElements;
+	@XmlAttribute(required=true) 
+	private long totalPages;
+   
+	@XmlAttribute(required=true) 
+	private List<T> content;
 
 	public PageModel() {
 		this.number = 0;
@@ -32,10 +37,11 @@ public class PageModel<T> implements Serializable {
 		}
 	}
    
-	public PageModel(int number, int size, List<T> content) {
+	public PageModel(int number, int size, long totalElements, List<T> content) {
 		super();
 		this.number = number;
 		this.size = size;
+		setTotalElements(totalElements);
 		this.content = content;
 	}
 
@@ -53,6 +59,23 @@ public class PageModel<T> implements Serializable {
 
 	public void setSize(int size) {
 		this.size = size;
+	}
+
+	public long getTotalElements() {
+		return totalElements;
+	}
+
+	public void setTotalElements(long totalElements) {
+		this.totalElements = totalElements;
+		setTotalPages(size == 0 ? 0 : (long)Math.ceil((double)totalElements / size));
+	}
+
+	public long getTotalPages() {
+		return totalPages;
+	}
+
+	public void setTotalPages(long totalPages) {
+		this.totalPages = totalPages;
 	}
 
 	public List<T> getContent() {

@@ -4,23 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Priority;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Alternative;
-import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 import com.example.contracts.domain.repositories.ActoresRepository;
-import com.example.core.annotation.Repository;
 import com.example.core.contracts.domain.repositories.Page;
 import com.example.core.contracts.domain.repositories.PageModel;
 import com.example.core.domain.exceptions.NotFoundException;
 import com.example.domain.entities.Actor;
 
 @Stateless
-@Repository
-@Priority(1)
 @Alternative
 public class ActoresRepositoryJPAImpl implements ActoresRepository {
 	@PersistenceContext
@@ -37,7 +34,14 @@ public class ActoresRepositoryJPAImpl implements ActoresRepository {
 				.setFirstResult(page.getNumber() * page.getSize())
 				.setMaxResults(page.getSize())
 				.getResultList();
-		return new PageModel<Actor>(page.getNumber(), result.size(), new ArrayList<Actor>(result)) ;
+		return new PageModel<Actor>(page.getNumber(), result.size(), count(), new ArrayList<Actor>(result)) ;
+	}
+
+	@Override
+	public long count() {
+	    CriteriaBuilder cb = em.getCriteriaBuilder();
+	    CriteriaQuery<Long> query = cb.createQuery(Long.class);
+		return em.createQuery(query.select(cb.count(query.from(Actor.class)))).getSingleResult();
 	}
 
 	@Override

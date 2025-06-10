@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@include file="../parts/header.jsp" %>
+<%@include file="WEB-INF/parts/header.jsp" %>
 		<h1>AJAX</h1>
-		<img id="ajaxWait" alt="Cargando ..." src="/images/loading.gif" style="display: none" >
+		<img id="ajaxWait" alt="Cargando ..." src="${pageContext.request.contextPath}/images/loading.gif" style="display: none" >
 		<div id="tabla"></div>
 		<div id="paginacion"></div>
 		<input id="btnAdd" class="btn btn-primary" type="button" value="add"/>
@@ -29,29 +29,30 @@
 			</div>
 			<div class="form-group">            
 				<input id="btnEnviar" class="btn btn-primary" type="button" value="Enviar"/>
-				<a href="/actores" class="btn btn-primary">Volver</a>   
+				<a href="${pageContext.request.contextPath}/ajax.jsp" class="btn btn-primary">Volver</a>   
 			</div>
 		</form>
 		
 	</main>
-<%@ include file="../parts/footerScripts.jsp" %>
+<%@ include file="WEB-INF/parts/footerScripts.jsp" %>
 	<script type="text/javascript">
 	function pide(pagina) {
 		 document.querySelector('#ajaxWait').style = "display: block";
-		 fetch('http://localhost:8080/api/actores?page=' + pagina + '&size=10&sort=firstName,lastName').then(function (response) {
+		 fetch('${pageContext.request.contextPath}/api/actores?page=' + pagina + '&size=10&sort=firstName,lastName').then(function (response) {
              if (response.ok) {
                  response.json().then(function (page) {
                      let tabla = '<table class="table">';
-                     tabla += '<tr><th>Lista de Actores</th><th><a class="btn btn-primary" href="/actores/add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></th></tr>';
+                     tabla += '<tr><th>Lista de Actores</th><th><a class="btn btn-primary" href="${pageContext.request.contextPath}/actores/add"><span class="fas fa-plus" aria-hidden="true"></span></a></th></tr>';
                      for(let item of page.content) {
-                         tabla += '<tr><td>' + item.firstName + ' ' + item.lastName + '</td><td><a class="btn btn-success" href="${pageContext.request.contextPath}/actores/${row.actorId}/edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
-                         tabla += ' | <a class="btn btn-danger" href="/actores/${row.actorId}/delete"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td></tr>';
+                         tabla += '<tr><td>' + item.firstName + ' ' + item.lastName + '</td><td><div class="btn-group"><a class="btn btn-success" href="${pageContext.request.contextPath}/actores/' + item.actorId +'/edit"><span class="fas fa-pen" aria-hidden="true"></span></a>';
+                         tabla += '<a class="btn btn-danger" href="${pageContext.request.contextPath}/actores/' + item.actorId +'/delete"><span class="fas fa-trash" aria-hidden="true"></span></a></div></td></tr>';
                      }
                      tabla += '</table>';
                      document.querySelector('#tabla').innerHTML = tabla;
-                     let paginacion = "<p>";
+                     let paginacion = '<nav><ul class="pagination">';
                      for(let i=0; i < page.totalPages; i++) {
-                    	 paginacion += '<button type="button" onclick="pide(' + i + ')">' + (i + 1) + '</button>';
+                    	 paginacion += '<li class="page-item' + (i === page.number ? ' active' : '') + 
+                    	 	'"><button type="button" class="page-link" onclick="pide(' + i + ')">' + (i + 1) + '</button></li>';
                      }
                      paginacion += "</p>";
                      document.querySelector('#paginacion').innerHTML = paginacion;
@@ -91,4 +92,4 @@
 		});
 	
 	</script>
-<%@ include file="../parts/footerEnd.jsp" %>
+<%@ include file="WEB-INF/parts/footerEnd.jsp" %>
