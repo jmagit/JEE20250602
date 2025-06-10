@@ -1,5 +1,5 @@
 
-package com.example.soap.client;
+package com.example.presentation.services.soap;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "CalculadoraService", targetNamespace = "http://soap.services.presentation.example.com/", wsdlLocation = "http://localhost:8080/samples-web/CalculadoraService?wsdl")
+@WebServiceClient(name = "CalculadoraService", targetNamespace = "http://soap.services.presentation.example.com/", wsdlLocation = "http://localhost:8080/demos/CalculadoraService?wsdl")
 public class CalculadoraService
     extends Service
 {
@@ -30,7 +30,7 @@ public class CalculadoraService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8080/samples-web/CalculadoraService?wsdl");
+            url = new URL("http://localhost:8080/demos/CalculadoraService?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

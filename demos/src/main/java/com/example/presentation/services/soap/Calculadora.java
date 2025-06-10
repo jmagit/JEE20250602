@@ -3,10 +3,16 @@ package com.example.presentation.services.soap;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+import javax.xml.rpc.soap.SOAPFaultException;
+
+@WebService
 public class Calculadora {
 	public int suma(int a, int b) {
 		return a + b;
 	}
+	@WebMethod
 	public double suma(double a, double b) {
 		return roundIEEE754(a + b);
 	}

@@ -21,7 +21,7 @@ import com.example.presentation.models.ActorRemote;
 
 @Stateless
 public class ActoresProxyImpl implements ActoresProxy {
-	private static final String URL_BASE = "http://localhost:8080/Datos/api/actores/";
+	private static final String URL_BASE = "http://localhost:8080/demos/api/actores/";
 
 	protected Client client;
 	private static final Logger logger = Logger.getLogger(ActoresProxyImpl.class.getName());
@@ -38,20 +38,26 @@ public class ActoresProxyImpl implements ActoresProxy {
 
 	@Override
 	public List<ActorRemote> getAll() {
-		return client.target(URL_BASE).request(MediaType.APPLICATION_JSON).get(new GenericType<List<ActorRemote>>() {
+		return client.target(URL_BASE)
+				.request(MediaType.APPLICATION_JSON)
+				.get(new GenericType<List<ActorRemote>>() {
 		});
 	}
 
 	@Override
 	public PageModel<ActorRemote> getPage(int page, int size) {
-		return client.target(URL_BASE).queryParam("page", page).queryParam("size", size)
-				.request(MediaType.APPLICATION_JSON).get(new GenericType<PageModel<ActorRemote>>() {
+		return client.target(URL_BASE)
+				.queryParam("page", page).queryParam("size", size)
+				.request(MediaType.APPLICATION_JSON)
+				.get(new GenericType<PageModel<ActorRemote>>() {
 				});
 	}
 
 	@Override
 	public ActorRemote getOne(int id) {
-		return client.target(URL_BASE).path("{id}").resolveTemplate("id", id).request(MediaType.APPLICATION_JSON)
+		return client.target(URL_BASE)
+				.path("{id}").resolveTemplate("id", id)
+				.request(MediaType.APPLICATION_JSON)
 				.get(ActorRemote.class);
 	}
 

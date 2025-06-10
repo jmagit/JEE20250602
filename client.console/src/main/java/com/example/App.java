@@ -27,29 +27,29 @@ import com.example.contracts.distributed.services.ConverterBeanRemote;
 import com.example.contracts.distributed.services.CounterBean;
 import com.example.contracts.distributed.services.LikesBeanRemote;
 import com.example.contracts.distributed.services.SaludoBeanRemote;
-import com.example.soap.client.Calculadora;
-import com.example.soap.client.CalculadoraService;
+import com.example.presentation.services.soap.Calculadora;
+import com.example.presentation.services.soap.CalculadoraService;
 
 public class App {
 	public static void main(String[] args) {
-		if (args.length > 0) {
-			System.out.println(args[0] + " " + args[1]);
-			switch (args[0]) {
-			case "tienda":
-				recibeFacturas(args[1]);
-				mandaPedidos(args[1]);
-				break;
-			case "oficina":
-				procesaPedidos(args[1]);
-				break;
-			case "sensor":
-				sensor(args[1]);
-				break;
-			default:
-				break;
-			}
-		}
-//		consumirSOAP();
+//		if (args.length > 0) {
+//			System.out.println(args[0] + " " + args[1]);
+//			switch (args[0]) {
+//			case "tienda":
+//				recibeFacturas(args[1]);
+//				mandaPedidos(args[1]);
+//				break;
+//			case "oficina":
+//				procesaPedidos(args[1]);
+//				break;
+//			case "sensor":
+//				sensor(args[1]);
+//				break;
+//			default:
+//				break;
+//			}
+//		}
+		consumirSOAP();
 //		peticionesEJB();
 		System.err.println("------------------------------- FIN");
 	}
@@ -209,7 +209,7 @@ public class App {
 			}
 
 			System.out.println("Peticion CounterBean");
-			CounterBean cont = (CounterBean) ctx.lookup("com.example.presentation.services.enterprise.CounterBean");
+			CounterBean cont = (CounterBean) ctx.lookup("java:global/demos-app/demos-ejb/CounterBean!com.example.presentation.services.enterprise.CounterBean");
 			System.out.println("Cont: " + cont.getHits());
 		} catch (NamingException e) {
 			e.printStackTrace();

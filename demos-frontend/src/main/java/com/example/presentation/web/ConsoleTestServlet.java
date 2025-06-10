@@ -113,47 +113,47 @@ public class ConsoleTestServlet extends HttpServlet {
 			out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
 		}
 		
-//		out.println("<li>Converter (stateless): " + converter.dollarToYen(BigDecimal.TEN) + " - "
-//				+ converter.dollarToYenLocal(BigDecimal.TEN) + "</li>");
-//		if (like == null) {
-//			out.println("<li>No Such EJB</li>");
-//		} else
-//			try {
-//				int actual = like.getHits();
-//				out.println("<li>Like (stateful): You has send " + actual + " like(s).[" + request.getSession().getId()
-//						+ "]</li>");
-//				if (actual > 10) {
-//					out.println("<li>Like remove</li>");
-//					like.remove();
-//				}
-//			} catch (Exception e) {
-//				out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
-//			}
-//		if (likePropio == null) {
-//			out.println("<li>No Such EJB</li>");
-//		} else
-//			try {
-//				int actual = likePropio.getHits();
-//				out.println("<li>Like (stateful): You has send " + actual + " like(s).[" + request.getSession().getId()
-//						+ "]</li>");
-//				if (actual > 10) {
-//					out.println("<li>Like remove</li>");
-//					likePropio.remove();
-//				}
-//			} catch (Exception e) {
-//				out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
-//			}
-//		try {
-//			int actual = counter.getHits();
-//			out.println("<li>Counter (singleton): This page has been accessed " + actual + " time(s).</li>");
-//			if (actual > 2) {
-//				out.println("<li>Counter remove</li>");
-//				counter.remove();
-//			}
-//		} catch (Exception e) {
-//			out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
-//		}
-//		out.println("<li><a href='" + request.getRequestURI() + "'>Abrir el enlace en una ventana de incognito</a></li>");
+		out.println("<li>Converter (stateless): " + converter.dollarToYen(BigDecimal.TEN) + " - "
+				+ converter.dollarToYenLocal(BigDecimal.TEN) + "</li>");
+		if (like == null) {
+			out.println("<li>No Such EJB</li>");
+		} else
+			try {
+				int actual = like.getHits();
+				out.println("<li>Like (stateful): You has send " + actual + " like(s).[" + request.getSession().getId()
+						+ "]</li>");
+				if (actual > 10) {
+					out.println("<li>Like remove</li>");
+					like.remove();
+				}
+			} catch (Exception e) {
+				out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
+			}
+		if (likePropio == null) {
+			out.println("<li>No Such EJB</li>");
+		} else
+			try {
+				int actual = likePropio.getHits();
+				out.println("<li>Like (stateful): You has send " + actual + " like(s).[" + request.getSession().getId()
+						+ "]</li>");
+				if (actual > 10) {
+					out.println("<li>Like remove</li>");
+					likePropio.remove();
+				}
+			} catch (Exception e) {
+				out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
+			}
+		try {
+			int actual = counter.getHits();
+			out.println("<li>Counter (singleton): This page has been accessed " + actual + " time(s).</li>");
+			if (actual > 2) {
+				out.println("<li>Counter remove</li>");
+				counter.remove();
+			}
+		} catch (Exception e) {
+			out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
+		}
+		out.println("<li><a href='" + request.getRequestURI() + "'>Abrir el enlace en una ventana de incognito</a></li>");
 		out.println("</ul>");
 	}
 

@@ -1,5 +1,5 @@
 
-package com.example.soap.client;
+package com.example.presentation.services.soap;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para sumaResponse complex type.
+ * <p>Clase Java para restaResponse complex type.
  * 
  * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="sumaResponse"&gt;
+ * &lt;complexType name="restaResponse"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
@@ -27,10 +27,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "sumaResponse", propOrder = {
+@XmlType(name = "restaResponse", propOrder = {
     "_return"
 })
-public class SumaResponse {
+public class RestaResponse {
 
     @XmlElement(name = "return")
     protected double _return;

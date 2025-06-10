@@ -1,5 +1,5 @@
 
-package com.example.soap.client;
+package com.example.presentation.services.soap;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,12 +7,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para multiplica complex type.
+ * <p>Clase Java para resta complex type.
  * 
  * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="multiplica"&gt;
+ * &lt;complexType name="resta"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
@@ -27,11 +27,11 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "multiplica", propOrder = {
+@XmlType(name = "resta", propOrder = {
     "arg0",
     "arg1"
 })
-public class Multiplica {
+public class Resta {
 
     protected double arg0;
     protected double arg1;

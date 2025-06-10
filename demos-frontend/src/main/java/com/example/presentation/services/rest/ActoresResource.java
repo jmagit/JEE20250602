@@ -10,6 +10,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -33,6 +34,7 @@ import com.example.presentation.models.ActorEdit;
 import com.example.presentation.models.ErrorMessage;
 
 @Path("/actores")
+//@Path("/v1/actores")
 public class ActoresResource {
 	private ActoresService srv;
 
@@ -48,7 +50,8 @@ public class ActoresResource {
 //	}
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getAll(@DefaultValue("-1") @QueryParam("page") int page, @DefaultValue("20") @QueryParam("size") int size) {
+	public Response getAll(@DefaultValue("-1") @QueryParam("page") int page, @DefaultValue("20") @QueryParam("size") int size, 
+			@HeaderParam("accept-language") String acceptLanguage) {
 		if(page < 0)
 			return Response.ok(srv.getAll().stream().map(item -> ActorEdit.from(item)).collect(Collectors.toList())).build();
 		PageModel<Actor> result = srv.getAll(Page.of(page, size));
@@ -64,7 +67,7 @@ public class ActoresResource {
 	}
 	@GET
 	@Path("{id:\\d+}/peliculas")
-	@Produces({MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public List<String>  getPelis(@PathParam("id") final int id) {
 		Optional<Actor> item = srv.getOne(id);
 		if(item.isPresent())
@@ -73,12 +76,12 @@ public class ActoresResource {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response add(ActorEdit item, @Context UriInfo uriInfo) {//
 		try {
 			Actor newItem = srv.add(ActorEdit.from(item));
-			return Response.created(URI.create(uriInfo.getAbsolutePath().toString() + "/" + newItem.getActorId())).build();
+			return Response.created(URI.create(uriInfo.getAbsolutePath().toString() + newItem.getActorId())).build();
 		} catch (DuplicateKeyException e) {
 			throw new WebApplicationException(Response.ok(e.getMessage()).status(Response.Status.CONFLICT).build());
 		} catch (InvalidDataException e) {
@@ -87,8 +90,7 @@ public class ActoresResource {
 	}
 	@PUT
 	@Path("{id:\\d+}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public void modify(@PathParam("id") int id, ActorEdit item) {
 		if(id != item.getActorId())
 			throw new WebApplicationException(Response.ok(new ErrorMessage(Response.Status.BAD_REQUEST.getStatusCode(), "No coinciden los identificadores")).status(Response.Status.BAD_REQUEST).build());
@@ -101,8 +103,7 @@ public class ActoresResource {
 		}
 	}
 	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public void modify2(ActorEdit item) {
 		try {
 			srv.modify(ActorEdit.from(item));
@@ -115,8 +116,7 @@ public class ActoresResource {
 	
 	@DELETE
 	@Path("{id:\\d+}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public void remove(@PathParam("id") int id) {
+	public void remove(@PathParam("id") int id) throws Exception {
 		try {
 			srv.deleteById(id);
 		} catch (Exception e) {
