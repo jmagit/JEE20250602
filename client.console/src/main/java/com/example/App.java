@@ -32,24 +32,46 @@ import com.example.presentation.services.soap.CalculadoraService;
 
 public class App {
 	public static void main(String[] args) {
-//		if (args.length > 0) {
-//			System.out.println(args[0] + " " + args[1]);
-//			switch (args[0]) {
-//			case "tienda":
-//				recibeFacturas(args[1]);
-//				mandaPedidos(args[1]);
-//				break;
-//			case "oficina":
-//				procesaPedidos(args[1]);
-//				break;
-//			case "sensor":
-//				sensor(args[1]);
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-		consumirSOAP();
+		if (args.length > 0) {
+			System.out.println(args[0] + " " + args[1]);
+			switch (args[0]) {
+			case "tienda":
+				recibeFacturas(args[1]);
+				mandaPedidos(args[1]);
+				if (connectionListener != null)
+					try {
+						connectionListener.stop();
+					} catch (JMSException e) {
+						e.printStackTrace();
+					}
+				break;
+			case "oficina":
+				procesaPedidos(args[1]);
+				break;
+			case "sensor":
+				for (int i = 1; i <= Integer.parseInt(args[1]); i++)
+					try {
+						final String name = Integer.toString(i);
+						(new Thread(() -> publicador(name))).start();
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+//				publicador(args[1]);
+				break;
+			case "calc":
+				try {
+					suscriptor(args[0] + "-" + args[1]);
+					Thread.sleep(360000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				break;
+			default:
+				break;
+			}
+		}
+//		consumirSOAP();
 //		peticionesEJB();
 		System.err.println("------------------------------- FIN");
 	}
@@ -83,7 +105,7 @@ public class App {
 					String body = "Pedido de las " + LocalDateTime.now() + " de " + id;
 					producer.send(queue, body);
 					System.out.println("Pedido enviado por " + id + ": " + body);
-					Thread.sleep(10000);
+					Thread.sleep(1000);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -122,7 +144,7 @@ public class App {
 		}
 	}
 
-	MessageConsumer consumerListener;
+	static Connection connectionListener = null;
 
 	private static void recibeFacturas(String id) {
 		InitialContext ctx;
@@ -130,8 +152,8 @@ public class App {
 		try {
 			ctx = getInitialContext();
 			conn = getConnection(ctx);
-			Connection connection = conn.createConnection();
-			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			connectionListener = conn.createConnection();
+			Session session = connectionListener.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			Queue facturas = (Queue) ctx.lookup("jms/respuestasQueue");
 			MessageConsumer consumerListener = session.createConsumer(facturas);
 			consumerListener.setMessageListener(message -> {
@@ -141,15 +163,15 @@ public class App {
 					e.printStackTrace();
 				}
 			});
-			connection.start();
+			connectionListener.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static void sensor(String nombre) {
+	private static void publicador(String nombre) {
 		List<Integer> peloton = new ArrayList<Integer>();
-		for (int i = 1; i <= 100; peloton.add(i++))
+		for (int i = 1; i <= 10; peloton.add(i++))
 			;
 		Collections.shuffle(peloton);
 		Random rnd = new Random();
@@ -162,14 +184,38 @@ public class App {
 				Topic topic = (Topic) ctx.lookup("jms/sensoresTopic");
 				JMSProducer producer = context.createProducer();
 				for (int dorsal : peloton) {
-					String body = nombre +  ": " + dorsal;
+					String body = "SEN" + nombre + ":" + dorsal;
 					producer.send(topic, body);
 					System.out.println(body);
-					Thread.sleep(rnd.nextInt(5)*500);
+					Thread.sleep(rnd.nextInt(5) * 500);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void suscriptor(String id) {
+		InitialContext ctx;
+		ConnectionFactory conn;
+		try {
+			ctx = getInitialContext();
+			conn = getConnection(ctx);
+			Topic topic = (Topic) ctx.lookup("jms/sensoresTopic");
+			Connection connection = conn.createConnection();
+			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			MessageConsumer consumerListener = session.createConsumer(topic);
+			consumerListener.setMessageListener(message -> {
+				try {
+					System.out.println("Evento " + message.getJMSMessageID() + " procesado por " + id + ": "
+							+ ((TextMessage) message).getText());
+				} catch (JMSException e) {
+					e.printStackTrace();
+				}
+			});
+			connection.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -209,7 +255,8 @@ public class App {
 			}
 
 			System.out.println("Peticion CounterBean");
-			CounterBean cont = (CounterBean) ctx.lookup("java:global/demos-app/demos-ejb/CounterBean!com.example.presentation.services.enterprise.CounterBean");
+			CounterBean cont = (CounterBean) ctx.lookup(
+					"java:global/demos-app/demos-ejb/CounterBean!com.example.presentation.services.enterprise.CounterBean");
 			System.out.println("Cont: " + cont.getHits());
 		} catch (NamingException e) {
 			e.printStackTrace();

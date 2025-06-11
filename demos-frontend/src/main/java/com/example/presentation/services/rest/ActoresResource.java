@@ -19,6 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -33,8 +34,10 @@ import com.example.domain.entities.Actor;
 import com.example.presentation.models.ActorEdit;
 import com.example.presentation.models.ErrorMessage;
 
-@Path("/actores")
-//@Path("/v1/actores")
+//@Path("/actores")
+@Path("/v1/actores")
+@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 public class ActoresResource {
 	private ActoresService srv;
 
@@ -43,85 +46,61 @@ public class ActoresResource {
 		this.srv = srv;
 	}
 
-//	@GET
-//	@Produces({MediaType.APPLICATION_JSON})
-//	public List<ActorEdit> getAll() {
-//		return srv.getAll().stream().map(item -> ActorEdit.from(item)).collect(Collectors.toList());
-//	}
 	@GET
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getAll(@DefaultValue("-1") @QueryParam("page") int page, @DefaultValue("20") @QueryParam("size") int size, 
-			@HeaderParam("accept-language") String acceptLanguage) {
-		if(page < 0)
-			return Response.ok(srv.getAll().stream().map(item -> ActorEdit.from(item)).collect(Collectors.toList())).build();
+	public Response getAll(@DefaultValue("-1") @QueryParam("page") int page,
+			@DefaultValue("20") @QueryParam("size") int size, @HeaderParam("accept-language") String acceptLanguage) {
+		if (page < 0)
+			return Response.ok(new GenericEntity<List<ActorEdit>>(
+					srv.getAll().stream().map(item -> ActorEdit.from(item)).collect(Collectors.toList())) {
+			}).build();
 		PageModel<Actor> result = srv.getAll(Page.of(page, size));
-		return Response.ok(new PageModel<ActorEdit>(result.getNumber(), result.getSize(), result.getTotalElements(),
-				result.getContent().stream().map(item -> ActorEdit.from(item)).collect(Collectors.toList()))).build();
+		return Response
+				.ok(new PageModel<ActorEdit>(result.getNumber(), size, result.getTotalElements(),
+						result.getContent().stream().map(item -> ActorEdit.from(item)).collect(Collectors.toList())))
+				.build();
 	}
+
 	@GET
 	@Path("{id:\\d+}")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public ActorEdit get(@PathParam("id") final int id) {
-		return ActorEdit.from(srv.getOne(id)
-	            .orElseThrow(() -> new WebApplicationException(Response.Status.NOT_FOUND)));
+	public ActorEdit get(@PathParam("id") final int id) throws NotFoundException {
+		return ActorEdit.from(srv.getOne(id).orElseThrow(() -> new NotFoundException()));
 	}
+
 	@GET
 	@Path("{id:\\d+}/peliculas")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public List<String>  getPelis(@PathParam("id") final int id) {
+	public List<String> getPelis(@PathParam("id") final int id) throws NotFoundException {
 		Optional<Actor> item = srv.getOne(id);
-		if(item.isPresent())
+		if (item.isPresent())
 			return item.get().getFilmActors().stream().map(p -> p.getFilm().getTitle()).collect(Collectors.toList());
-		throw new WebApplicationException(Response.Status.NOT_FOUND);
+		throw new NotFoundException();
 	}
 
 	@POST
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response add(ActorEdit item, @Context UriInfo uriInfo) {//
-		try {
+	public Response add(ActorEdit item, @Context UriInfo uriInfo) throws DuplicateKeyException, InvalidDataException {//
 			Actor newItem = srv.add(ActorEdit.from(item));
 			return Response.created(URI.create(uriInfo.getAbsolutePath().toString() + newItem.getActorId())).build();
-		} catch (DuplicateKeyException e) {
-			throw new WebApplicationException(Response.ok(e.getMessage()).status(Response.Status.CONFLICT).build());
-		} catch (InvalidDataException e) {
-			throw new WebApplicationException(Response.ok(e.getErrors()).status(Response.Status.BAD_REQUEST).build());
-		}
 	}
+
 	@PUT
 	@Path("{id:\\d+}")
-	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public void modify(@PathParam("id") int id, ActorEdit item) {
-		if(id != item.getActorId())
-			throw new WebApplicationException(Response.ok(new ErrorMessage(Response.Status.BAD_REQUEST.getStatusCode(), "No coinciden los identificadores")).status(Response.Status.BAD_REQUEST).build());
-		try {
-			srv.modify(ActorEdit.from(item));
-		} catch (NotFoundException e) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
-		} catch (InvalidDataException e) {
-			throw new WebApplicationException(Response.ok(e.getErrors()).status(Response.Status.BAD_REQUEST).build());
-		}
+	public void modify(@PathParam("id") int id, ActorEdit item) throws NotFoundException, InvalidDataException {
+		if (id != item.getActorId())
+			throw new InvalidDataException("No coinciden los identificadores");
+//			throw new WebApplicationException(Response.ok(
+//					new ErrorMessage(Response.Status.BAD_REQUEST.getStatusCode(), "No coinciden los identificadores"))
+//					.status(Response.Status.BAD_REQUEST).build());
+		srv.modify(ActorEdit.from(item));
 	}
+
 	@PUT
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public void modify2(ActorEdit item) {
-		try {
-			srv.modify(ActorEdit.from(item));
-		} catch (NotFoundException e) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
-		} catch (InvalidDataException e) {
-			throw new WebApplicationException(Response.ok(e.getErrors()).status(Response.Status.BAD_REQUEST).build());
-		}
+	public void modify2(ActorEdit item) throws NotFoundException, InvalidDataException {
+		srv.modify(ActorEdit.from(item));
 	}
-	
+
 	@DELETE
 	@Path("{id:\\d+}")
-	public void remove(@PathParam("id") int id) throws Exception {
-		try {
-			srv.deleteById(id);
-		} catch (Exception e) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
-		}
+	public void remove(@PathParam("id") int id) throws NotFoundException {
+		srv.deleteById(id);
 	}
 
 }

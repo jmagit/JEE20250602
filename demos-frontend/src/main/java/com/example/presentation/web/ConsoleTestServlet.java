@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Enumeration;
 
 import javax.annotation.Resource;
@@ -22,6 +23,12 @@ import com.example.contracts.distributed.services.ConverterBeanLocal;
 import com.example.contracts.distributed.services.LikesBeanLocal;
 import com.example.contracts.distributed.services.SaludoBeanLocal;
 import com.example.contracts.distributed.services.SaludoBeanRemote;
+import com.example.contracts.domain.distributed.FacturasCommand;
+import com.example.contracts.domain.distributed.PedidosCommand;
+import com.example.contracts.domain.distributed.SensoresEvent;
+import com.example.infraestructure.events.SensoresTopic;
+import com.example.infraestructure.messages.FacturasQueue;
+import com.example.infraestructure.messages.PedidosQueue;
 import com.example.presentation.services.enterprise.CounterBean;
 import com.example.presentation.services.enterprise.SaludoBean;
 import com.example.presentation.web.ioc.Real;
@@ -39,7 +46,9 @@ public class ConsoleTestServlet extends HttpServlet {
 //		cabeceras(request, response, out);
 //		inyecciones(request, response, out);
 //		conexion(request, response, out);
-		ejb(request, response, out);
+//		ejb(request, response, out);
+		colas(request, response, out);
+//		temas(request, response, out);
 
 		request.getRequestDispatcher("/WEB-INF/parts/footer.jsp").include(request, response);
 	}
@@ -157,10 +166,46 @@ public class ConsoleTestServlet extends HttpServlet {
 		out.println("</ul>");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+	@Inject
+	PedidosQueue pedidosSender;
+	@Inject
+	FacturasQueue facturasReceiver;
+	
+	private void colas(HttpServletRequest request, HttpServletResponse response, PrintWriter out) {
+		out.println("<h2>EJB</h2>");
+		out.println("<ul>");
+		try {
+			out.println("<li>JMS Colas</li>");
+			String body = "Pedido de las " + LocalDateTime.now() + " de " + getClass().getSimpleName();
+			pedidosSender.send(body);
+			out.println("<li>PEDIDO: " + body + "</li>");
+			while (body != null) {
+				body = facturasReceiver.receive(1000);			
+				out.println("<li>FACTURA: " + (body == null ? "No se ha recibido la factura" : body) + "</li>");
+			}
+		} catch (Exception e) {
+			out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
+		}
+		out.println("</ul>");
+	}
+	
+	@Inject
+	SensoresTopic sensorSender;
+	
+	private void temas(HttpServletRequest request, HttpServletResponse response, PrintWriter out) {
+		out.println("<h2>EJB</h2>");
+		out.println("<ul>");
+		try {
+			out.println("<li>JMS Temas</li>");
+			String body = "SRV1:" + LocalDateTime.now().getSecond();
+			sensorSender.send(body);
+			out.println("<li>Evento enviado: " + body + "</li>");
+		} catch (Exception e) {
+			out.println("<li>" + e.getClass().getCanonicalName() + ": " + e.getMessage() + "</li>");
+		}
+		out.println("</ul>");
+	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 //		doGet(request, response);

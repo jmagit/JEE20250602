@@ -38,7 +38,7 @@
 	<script type="text/javascript">
 	function pide(pagina) {
 		 document.querySelector('#ajaxWait').style = "display: block";
-		 fetch('${pageContext.request.contextPath}/api/actores?page=' + pagina + '&size=10&sort=firstName,lastName').then(function (response) {
+		 fetch('${pageContext.request.contextPath}/api/v1/actores?page=' + pagina + '&size=10&sort=firstName,lastName').then(function (response) {
              if (response.ok) {
                  response.json().then(function (page) {
                      let tabla = '<table class="table">';
