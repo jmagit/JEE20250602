@@ -47,8 +47,8 @@ public class ConsoleTestServlet extends HttpServlet {
 //		inyecciones(request, response, out);
 //		conexion(request, response, out);
 //		ejb(request, response, out);
-		colas(request, response, out);
-//		temas(request, response, out);
+//		colas(request, response, out);
+		temas(request, response, out);
 
 		request.getRequestDispatcher("/WEB-INF/parts/footer.jsp").include(request, response);
 	}
